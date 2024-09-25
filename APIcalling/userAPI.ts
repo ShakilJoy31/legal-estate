@@ -9,6 +9,7 @@ import { IUserData, IUserLoginData } from './userInterface';
 
 // Creating user to the database 
 const handleCreateuserToDB = async (data: IUserData) => {
+  console.log(data)
   const axiosInstance = axios.create({
       baseURL: BASE_URL
     });

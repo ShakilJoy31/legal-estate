@@ -6,12 +6,15 @@ import { useRouter } from 'next/navigation';
 
 import CommunityComponentCSS from '../../style/Home.module.css';
 import { UserAPI } from '@/APIcalling/userAPI';
+import { IoEyeOff } from "react-icons/io5";
+import { IoEye } from "react-icons/io5";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState(''); 
+  const [passwordVasibility, setPasswordVasibility] = useState(true); 
 
 
   const handleUserLogin = async () => {
@@ -19,9 +22,9 @@ const LoginForm: React.FC = () => {
       email: email, password: password
     }
     await UserAPI.handleUserLogin(userData).then(res => {
-      console.log(res)
+      console.log(res);
     })
-    console.log(userData)
+    console.log(userData);
   }
 
 
@@ -54,7 +57,7 @@ const LoginForm: React.FC = () => {
                 background: 'white',
               }}
               placeholder="Type your email address"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
+              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black pl-2"
               type="email"
               name=""
               id=""
@@ -65,18 +68,21 @@ const LoginForm: React.FC = () => {
 
         <div className='mt-4'>
           <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center `}>
-            <input onChange={(e)=> setPassword(e.target.value)}
-              style={{
+          <div style={{
                 borderRadius: "4px",
                 background: 'white',
-              }}
+              }} className={`flex items-center px-2`} >
+            <input onChange={(e)=> setPassword(e.target.value)}
               placeholder="Type your password"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="password"
+              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
+              type={passwordVasibility ? 'password' : 'text'}
               name=""
               id=""
             />
+            {
+              passwordVasibility ? <IoEye onClick={()=> setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={()=> setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEyeOff>
+            }
+            
           </div>
         </div>
 

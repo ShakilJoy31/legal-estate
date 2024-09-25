@@ -2,22 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { BsFacebook } from "react-icons/bs";
-import { CgLayoutGrid } from "react-icons/cg";
-import NavbarCustomCss from "../style/NavbarCustomCss.module.css";
 import { motion } from 'framer-motion'
 
-import {
-    FaFacebook,
-    FaFacebookMessenger,
-    FaInstagramSquare,
-    FaPhone,
-    FaTelegram,
-    FaYoutube,
-} from 'react-icons/fa';
-import { IoLogoWhatsapp } from 'react-icons/io';
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
 
 const links = [
     { url: "/login", title: "Login" },

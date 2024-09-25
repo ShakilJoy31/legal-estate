@@ -334,3 +334,25 @@
   color: crimson;
   transition-duration: 200ms;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* The new css for the user after login... */
+.newLevel {
+  transition-duration: 400ms;
+  border-radius: 5px;
+  box-shadow: 2px 2px 15px 5px black;
+}

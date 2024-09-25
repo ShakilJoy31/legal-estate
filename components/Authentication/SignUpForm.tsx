@@ -35,7 +35,7 @@ const SignUpForm: React.FC = () => {
       if(res.data.code === 11000){
         alert('This email is already exists! Try another one.')
       }else{
-        localStorage.setItem('legalEstateUser', res);
+        localStorage.setItem("legalEstateUser", JSON.stringify(res));
         router.push('/dashboard');
       }
     })

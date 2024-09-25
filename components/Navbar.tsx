@@ -7,9 +7,9 @@ import { motion } from 'framer-motion'
 
 const links = [
     { url: "/login", title: "Login" },
-    { url: "/portfolio", title: "Portfolio" },
+    { url: "/profile", title: "Profile" },
     { url: "/contact", title: "Contact" },
-]
+];
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);

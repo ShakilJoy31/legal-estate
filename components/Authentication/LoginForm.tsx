@@ -22,9 +22,13 @@ const LoginForm: React.FC = () => {
       email: email, password: password
     }
     await UserAPI.handleUserLogin(userData).then(res => {
-      console.log(res);
+      if(res.data.code === 11000){
+        alert('This email is already exists! Try another one.')
+      }else{
+        localStorage.setItem("legalEstateUser", JSON.stringify(res));
+        router.push('/dashboard');
+      }
     })
-    console.log(userData);
   }
 
 

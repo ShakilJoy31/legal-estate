@@ -12,3 +12,25 @@ export interface IUserData {
     password: string
   }
   
+
+
+
+
+
+  // Interface for the seller
+
+  export interface ISellerPropertyToSell {
+    propertyName: string,
+     price: string,
+     location: string,
+     bedrooms: string,
+     bahtrooms: string,
+     size: string,
+     year: string,
+     propertyType: string,
+     status: string,
+     description: string,
+     contactNumber: string,
+     image: string[]
+      
+  }

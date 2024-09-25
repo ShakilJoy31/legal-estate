@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import SignUpForm from '@/components/Authentication/SignUpForm';
 
 export default function Home() {
   return (

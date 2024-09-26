@@ -1,34 +1,88 @@
 import React, { useEffect, useState } from 'react';
 import SellProperty from './SellProperty';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
+import { ISellerPropertyToSell } from '@/APIcalling/userInterface';
 
 const CheckoutProperty = () => {
-    const [propertiesToBeSold, setPropertiesToBeSold] = useState<string[]>([]); 
-    useEffect(()=> {
+    const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);
+    const [propertiesToBeSold, setPropertiesToBeSold] = useState<ISellerPropertyToSell[]>([]);
+    const [status, setStatus] = useState<string>('All');
+
+    useEffect(() => {
         SellerAPI.handleGetSellerPropertiesFromDB().then(res => {
-            console.log(res);
-            setPropertiesToBeSold(res)
-        })
-    },[])
+            setProperties(res.data);
+            setPropertiesToBeSold(res.data);
+        });
+    }, []);
+
+    useEffect(()=> {
+        if (status === 'All') {
+            setPropertiesToBeSold(properties);
+        } else if (status === 'For Sell') {
+            const sellableProperty = properties.filter(sell => sell.status === 'For Sell');
+            setPropertiesToBeSold(sellableProperty);
+        } else {
+            const rentableProperty = properties.filter(rent => rent.status === 'For Rent');
+            setPropertiesToBeSold(rentableProperty);
+        }
+    },[status])
+
+
+
+    console.log(status)
     return (
         <div>
 
-            {/* <div style={styles.card}>
-                <img src={image} alt={propertyName} style={styles.image} />
-                <div style={styles.content}>
-                    <h2 style={styles.title}>{propertyName}</h2>
-                    <p><strong>Price:</strong> ${price}</p>
-                    <p><strong>Location:</strong> {location}</p>
-                    <p><strong>Bedrooms:</strong> {bedrooms}</p>
-                    <p><strong>Bathrooms:</strong> {bahtrooms}</p>
-                    <p><strong>Size:</strong> {size} sq ft</p>
-                    <p><strong>Year Built:</strong> {year}</p>
-                    <p><strong>Type:</strong> {propertyType}</p>
-                    <p><strong>Status:</strong> {status}</p>
-                    <p><strong>Description:</strong> {description}</p>
-                    <p><strong>Contact:</strong> {contactNumber}</p>
+            {
+                propertiesToBeSold.length < 1 ? <div className='w-full h-full mt-12'>
+                    <span className="loading loading-bars loading-lg flex justify-center items-center"></span>
+                </div> : <div>
+
+                    <div>
+                        <div className='grid md:flex justify-between items-center my-4'>
+
+                            <div className='flex gap-x-2'>
+                                <input onChange={(e) => setStatus(e.target.value)} value='All' type="radio" name="radio-2" className="radio radio-warning" checked={status === 'All'} />
+                                <h1 className=''>All</h1>
+                            </div>
+
+                            <div className='flex gap-x-2'>
+                                <input onChange={(e) => setStatus(e.target.value)} value='For Sell' type="radio" name="radio-2" className="radio radio-warning" />
+                                <h1 className=''>For Sale</h1>
+                            </div>
+
+                            <div className='flex gap-x-2'>
+                                <input onChange={(e) => setStatus(e.target.value)} value='For Rent' type="radio" name="radio-2" className="radio radio-warning" />
+                                <h1 className=''>For Rent</h1>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div className='grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4'>
+                        {
+                            propertiesToBeSold.map((property: any, index: number) => <div key={index} className="card card-side bg-base-100 shadow-xl">
+                                <figure>
+                                    <img className='h-full'
+                                        src={property.image[0]}
+                                        alt="Movie" />
+                                </figure>
+                                <div className="card-body">
+                                    <h2 className="card-title">{property.propertyName}</h2>
+                                    <p>{property.description}</p>
+                                    <div className="card-actions justify-end">
+                                        <button className="btn btn-primary">Explore</button>
+                                    </div>
+                                </div>
+                            </div>)
+                        }
+
+                    </div>
                 </div>
-            </div> */}
+
+            }
+
         </div>
     );
 };

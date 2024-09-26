@@ -27,7 +27,6 @@ const handleGetSellerPropertiesFromDB = async () => {
     const axiosInstance = axios.create({
         baseURL: BASE_URL,
     });
-
     try {
         // Make a GET request using the property ID
         const response = await axiosInstance.get(`${propertyCheckoutAPI}`);

@@ -106,7 +106,7 @@ const SellProperty: React.FC = () => {
         const restImage = hostedImage.filter(img => img !== getImage);
         setHostedImage(restImage);
     }
-
+       
     return (
         <div style={{
             borderRadius: "5px",

@@ -1,11 +1,9 @@
 'use client'
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import CommunityComponentCSS from '../../style/Home.module.css';
 import HomeComponentCss from '../../style/ComponentStyle.module.css';
-import { UserAPI } from '@/APIcalling/userAPI';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
@@ -32,7 +30,6 @@ const propertTypes = [
     'Land', 'Industrial Property','Vacation Home','Mobile Home']
 
 const SellProperty: React.FC = () => {
-    const router = useRouter();
 
     // The states
     const [propertyName, setPropertyName] = useState('');
@@ -53,7 +50,6 @@ const SellProperty: React.FC = () => {
 
 
     const handlePropertySelling = async () => {
-        // Safely handle the case where localStorage.getItem might return null
         const sellerOwner = localStorage.getItem('legalEstateUser');
         let parsedSellerOwner = null;
     

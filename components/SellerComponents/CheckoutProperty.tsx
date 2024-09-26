@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import SellProperty from './SellProperty';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell } from '@/APIcalling/userInterface';
 
@@ -27,9 +26,6 @@ const CheckoutProperty = () => {
         }
     },[status])
 
-
-
-    console.log(status)
     return (
         <div>
 
@@ -62,7 +58,7 @@ const CheckoutProperty = () => {
 
                     <div className='grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4'>
                         {
-                            propertiesToBeSold.map((property: any, index: number) => <div key={index} className="card card-side bg-base-100 shadow-xl">
+                            propertiesToBeSold.map((property: ISellerPropertyToSell, index: number) => <div key={index} className="card card-side bg-base-100 shadow-xl">
                                 <figure>
                                     <img className='h-full'
                                         src={property.image[0]}

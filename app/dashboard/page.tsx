@@ -17,7 +17,6 @@ export default function Home() {
         setCheckoutProperty(false);
         setPropertyForApproval(false);
     };
-    let allSecondGeneration = []
     const handleLevel2 = () => {
         setSellProperty(false);
         setCheckoutProperty(true);

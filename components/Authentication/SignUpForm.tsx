@@ -42,6 +42,22 @@ const SignUpForm: React.FC = () => {
   }
 
 
+  // The verification email functionality
+
+  const [otp, setOtp] = useState<string[]>(new Array(6).fill("")); 
+  const handleChange = (element: HTMLInputElement, index: number) => {
+    if (isNaN(Number(element.value))) return;
+    const newOtp = [...otp];
+    newOtp[index] = element.value;
+    setOtp(newOtp);
+    if (element.nextSibling && element.value !== "") {
+      (element.nextSibling as HTMLInputElement).focus();
+    }
+  };
+
+  console.log(parseInt(otp.join('')))
+
+
   // Hosting the image to the third party. 
   if (picture) {
     const formDataImage = new FormData();
@@ -272,6 +288,28 @@ const SignUpForm: React.FC = () => {
           </div>
 
         </div>
+
+
+
+        <div className='my-4'>
+      <h1 className='mb-1'>Enter OTP<span className='text-red-700 text-xl pt-1'> *</span></h1>
+      <div className={`flex justify-between items-center gap-2`}>
+        {otp.map((data, index) => (
+          <input
+            key={index}
+            type="text"
+            maxLength={1} // Ensure maxLength is a number
+            className="w-12 h-[45px] text-center border border-gray-300 focus:outline-none rounded"
+            value={data}
+            onChange={e => handleChange(e.target, index)}
+            onFocus={e => e.target.select()}
+          />
+        ))}
+      </div>
+      <p className='mt-3'>Entered OTP: {otp.join('')}</p> {/* Just to show the entered OTP */}
+    </div>
+
+
 
         <div className='my-4 flex justify-end'>
           <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Sign up</button>

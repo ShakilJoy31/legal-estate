@@ -23,8 +23,8 @@ const SignUpForm: React.FC = () => {
   const [role, setRole] = useState('');
   const [picture, setPicture] = useState<File | null>(null);
   const [hostedImage, setHostedImage] = useState('');
-  const [passwordVasibility, setPasswordVasibility] = useState(true); 
-  const [confirmPasswordVasibility, setConfirmPasswordVasibility] = useState(true); 
+  const [passwordVasibility, setPasswordVasibility] = useState(true);
+  const [confirmPasswordVasibility, setConfirmPasswordVasibility] = useState(true);
 
 
   const handleUserSignup = async () => {
@@ -32,9 +32,9 @@ const SignUpForm: React.FC = () => {
       name: name, email: email, phone: phone, address: address, password: password, role: role, photo: hostedImage
     }
     await UserAPI.handleCreateuserToDB(userData).then(res => {
-      if(res.data.code === 11000){
+      if (res.data.code === 11000) {
         alert('This email is already exists! Try another one.')
-      }else{
+      } else {
         localStorage.setItem("legalEstateUser", JSON.stringify(res));
         router.push('/dashboard');
       }
@@ -44,7 +44,7 @@ const SignUpForm: React.FC = () => {
 
   // The verification email functionality
 
-  const [otp, setOtp] = useState<string[]>(new Array(6).fill("")); 
+  const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const handleChange = (element: HTMLInputElement, index: number) => {
     if (isNaN(Number(element.value))) return;
     const newOtp = [...otp];
@@ -164,9 +164,9 @@ const SignUpForm: React.FC = () => {
         <div className='mt-4'>
           <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
           <div style={{
-                borderRadius: "4px",
-                background: 'white',
-              }} className={`flex items-center px-2`} >
+            borderRadius: "4px",
+            background: 'white',
+          }} className={`flex items-center px-2`} >
             <input onChange={(e) => setPassword(e.target.value)}
               placeholder="Type your password"
               className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
@@ -175,9 +175,9 @@ const SignUpForm: React.FC = () => {
               id=""
             />
             {
-              passwordVasibility ? <IoEye onClick={()=> setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={()=> setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEyeOff>
+              passwordVasibility ? <IoEye onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEyeOff>
             }
-            
+
           </div>
         </div>
 
@@ -187,9 +187,9 @@ const SignUpForm: React.FC = () => {
         <div className='mt-4'>
           <h1 className='mb-1'>Confirm Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
           <div style={{
-                borderRadius: "4px",
-                background: 'white',
-              }} className={`flex items-center px-2`} >
+            borderRadius: "4px",
+            background: 'white',
+          }} className={`flex items-center px-2`} >
             <input onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Type your password"
               className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
@@ -198,9 +198,9 @@ const SignUpForm: React.FC = () => {
               id=""
             />
             {
-              confirmPasswordVasibility ? <IoEye onClick={()=> setConfirmPasswordVasibility(!confirmPasswordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={()=> setConfirmPasswordVasibility(!confirmPasswordVasibility)} color={'black'} size={25}></IoEyeOff>
+              confirmPasswordVasibility ? <IoEye onClick={() => setConfirmPasswordVasibility(!confirmPasswordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={() => setConfirmPasswordVasibility(!confirmPasswordVasibility)} color={'black'} size={25}></IoEyeOff>
             }
-            
+
           </div>
         </div>
 
@@ -225,8 +225,8 @@ const SignUpForm: React.FC = () => {
           </div>
 
           <div className='flex gap-x-2'>
-            <input onChange={(e) => setRole(e.target.value)} value='Renter' type="radio" name="radio-2" className="radio radio-warning" />
-            <h1 className=''>Renter</h1>
+            <input onChange={(e) => setRole(e.target.value)} value='Modarator' type="radio" name="radio-2" className="radio radio-warning" />
+            <h1 className=''>Modarator</h1>
           </div>
 
           <div className='flex gap-x-2'>
@@ -242,7 +242,7 @@ const SignUpForm: React.FC = () => {
             <span>Upload Profile Picture</span>
 
             <div className='flex justify-between items-center my-2'>
-              <div className=''>     
+              <div className=''>
                 <div
                   style={{
                     borderRadius: '8px',
@@ -273,8 +273,8 @@ const SignUpForm: React.FC = () => {
 
               <div className=''>
                 {
-                 hostedImage && <div style={{ position: 'relative' }}>
-                    <span onClick={() =>setHostedImage('')} style={{ position: 'absolute', top: '5px', right: '5px' }}><RxCross1 size={25} color={'red'}></RxCross1></span>
+                  hostedImage && <div style={{ position: 'relative' }}>
+                    <span onClick={() => setHostedImage('')} style={{ position: 'absolute', top: '5px', right: '5px' }}><RxCross1 size={25} color={'red'}></RxCross1></span>
                     <img
                       className="w-[120px] h-[120px] rounded-sm"
                       src={hostedImage}
@@ -291,28 +291,8 @@ const SignUpForm: React.FC = () => {
 
 
 
-        <div className='my-4'>
-      <h1 className='mb-1'>Enter OTP<span className='text-red-700 text-xl pt-1'> *</span></h1>
-      <div className={`flex justify-between items-center gap-2`}>
-        {otp.map((data, index) => (
-          <input
-            key={index}
-            type="text"
-            maxLength={1} // Ensure maxLength is a number
-            className="w-12 h-[45px] text-center border border-gray-300 focus:outline-none rounded"
-            value={data}
-            onChange={e => handleChange(e.target, index)}
-            onFocus={e => e.target.select()}
-          />
-        ))}
-      </div>
-      <p className='mt-3'>Entered OTP: {otp.join('')}</p> {/* Just to show the entered OTP */}
-    </div>
-
-
-
         <div className='my-4 flex justify-end'>
-          <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Sign up</button>
+          <button onClick={() => (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal()} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Procceed</button>
         </div>
 
         <div className='flex justify-center'>
@@ -320,6 +300,42 @@ const SignUpForm: React.FC = () => {
         </div>
 
       </div>
+
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Verify your email.</h3>
+
+          <div className='my-4'>
+            <h1 className='mb-1'>Enter OTP<span className='text-red-700 text-xl pt-1'> *</span></h1>
+            <div className={`flex justify-between items-center gap-2`}>
+              {otp.map((data, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  maxLength={1} // Ensure maxLength is a number
+                  className="w-12 h-[45px] text-center border border-gray-300 focus:outline-none rounded"
+                  value={data}
+                  onChange={e => handleChange(e.target, index)}
+                  onFocus={e => e.target.select()}
+                />
+              ))}
+            </div>
+            <p className='mt-3'>Entered OTP: {otp.join('')}</p> {/* Just to show the entered OTP */}
+          </div>
+
+
+          <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Sign up</button>
+
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+
+
     </div>
   );
 };

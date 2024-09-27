@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell } from '@/APIcalling/userInterface';
+import { colgroup } from 'framer-motion/client';
 
 const CheckoutProperty = () => {
     const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);
@@ -14,7 +15,7 @@ const CheckoutProperty = () => {
         });
     }, []);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (status === 'All') {
             setPropertiesToBeSold(properties);
         } else if (status === 'For Sell') {
@@ -24,7 +25,9 @@ const CheckoutProperty = () => {
             const rentableProperty = properties.filter(rent => rent.status === 'For Rent');
             setPropertiesToBeSold(rentableProperty);
         }
-    },[status])
+    }, [status])
+
+    console.log(propertiesToBeSold);
 
     return (
         <div>
@@ -58,6 +61,79 @@ const CheckoutProperty = () => {
 
                     <div className='grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4'>
                         {
+                            propertiesToBeSold.map((property: ISellerPropertyToSell, index: number) => <div key={index} className="card bg-base-100 image-full w-96 shadow-xl">
+                                <figure>
+                                    <img className="h-full w-full object-cover"
+                                        src={property.image[0]}
+                                        alt={property.propertyName} />
+                                </figure>
+                                <div className="card-body">
+                                    <h2 className="card-title text-xl font-semibold">{property.propertyName}</h2>
+
+                                    <p className="mb-2">{property.description}</p>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Location:</span> {property.location}
+                                    </div>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Price:</span> ${property.price}
+                                    </div>
+
+                                    <div className="mb-2 flex items-center justify-between gap-x-2">
+                                        <p className='border border-white flex justify-between px-2'><span className="font-bold">Bedrooms:</span> {property.bedrooms}</p>
+                                        <p className='border border-white flex justify-between px-2'><span className="font-bold">Bathrooms:</span> {property.bahtrooms}</p>
+                                        
+                                    </div>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Size:</span> {property.size} sq.ft.
+                                    </div>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Year Built:</span> {property.year}
+                                    </div>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Property Type:</span> {property.propertyType}
+                                    </div>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Status:</span> {property.status}
+                                    </div>
+
+                                    <div className="mb-2">
+                                        <span className="font-bold">Contact:</span> {property.contactNumber}
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <div className='flex gap-x-2 items-center'>
+                                            <img className="h-8 w-8 rounded-full"
+                                                src={property.propertyOwner.photo}
+                                                alt={property.propertyName} />
+
+                                            <div>
+                                                <p className='font-bold'>{property.propertyOwner.name}</p>
+                                                <p>{property.propertyOwner.email}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="card-actions justify-end">
+                                        <button className="btn btn-primary">Explore</button>
+                                    </div>
+                                </div>
+                            </div>
+                            )
+                        }
+
+                    </div>
+
+
+
+
+                    {/* <div className='grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4'>
+                        {
                             propertiesToBeSold.map((property: ISellerPropertyToSell, index: number) => <div key={index} className="card card-side bg-base-100 shadow-xl">
                                 <figure>
                                     <img className='h-full'
@@ -74,7 +150,7 @@ const CheckoutProperty = () => {
                             </div>)
                         }
 
-                    </div>
+                    </div> */}
                 </div>
 
             }

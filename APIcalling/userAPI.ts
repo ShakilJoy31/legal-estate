@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
   BASE_URL,
+  userEmailVerification,
   userLogin,
   userRegistration
 } from '@/constants/routeConstant';
@@ -34,7 +35,22 @@ const handleUserLogin = async (data: IUserLoginData) => {
     }
 }
 
+
+const handleUserEmailVerification = async (email: string) => {
+    const axiosInstance = axios.create({
+        baseURL: BASE_URL
+      });
+    try {
+      const response = await axiosInstance.post(userEmailVerification, {email});
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error('Error email verification:', error);
+    }
+}
+
 export const UserAPI = {
     handleCreateuserToDB,
-    handleUserLogin
+    handleUserLogin,
+    handleUserEmailVerification
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import CommunityComponentCSS from '../../style/Home.module.css';
@@ -25,6 +25,7 @@ const SignUpForm: React.FC = () => {
   const [hostedImage, setHostedImage] = useState('');
   const [passwordVasibility, setPasswordVasibility] = useState(true);
   const [confirmPasswordVasibility, setConfirmPasswordVasibility] = useState(true);
+  const [readyToSignUp, setReadyToSignUp] = useState(false);
 
 
   const handleUserSignup = async () => {
@@ -55,8 +56,6 @@ const SignUpForm: React.FC = () => {
     }
   };
 
-  console.log(parseInt(otp.join('')))
-
 
   // Hosting the image to the third party. 
   if (picture) {
@@ -72,6 +71,17 @@ const SignUpForm: React.FC = () => {
       });
     setPicture(null);
   }
+
+  const [serverOTP, setServerOTP] = useState('');
+  const handleProcceed = async () => {
+    (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal()
+    await UserAPI.handleUserEmailVerification(email).then(res => {
+      setServerOTP(res.otp);
+    })
+  }
+
+  console.log(serverOTP, otp.join(''));
+
 
   return (
     <div style={{
@@ -292,7 +302,7 @@ const SignUpForm: React.FC = () => {
 
 
         <div className='my-4 flex justify-end'>
-          <button onClick={() => (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal()} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Procceed</button>
+          <button onClick={handleProcceed} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Procceed</button>
         </div>
 
         <div className='flex justify-center'>
@@ -323,9 +333,10 @@ const SignUpForm: React.FC = () => {
             <p className='mt-3'>Entered OTP: {otp.join('')}</p> {/* Just to show the entered OTP */}
           </div>
 
-
-          <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Sign up</button>
-
+          {
+            serverOTP &&  <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={serverOTP !== otp.join('')}>Sign up</button>
+          }
+         
           <div className="modal-action">
             <form method="dialog">
               <button className="btn">Close</button>

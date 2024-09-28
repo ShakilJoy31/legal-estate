@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import CommunityComponentCSS from '../../style/Home.module.css';
@@ -25,8 +25,6 @@ const SignUpForm: React.FC = () => {
   const [hostedImage, setHostedImage] = useState('');
   const [passwordVasibility, setPasswordVasibility] = useState(true);
   const [confirmPasswordVasibility, setConfirmPasswordVasibility] = useState(true);
-  const [readyToSignUp, setReadyToSignUp] = useState(false);
-
 
   const handleUserSignup = async () => {
     const userData = {

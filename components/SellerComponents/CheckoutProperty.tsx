@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell } from '@/APIcalling/userInterface';
-import { colgroup } from 'framer-motion/client';
 
 const CheckoutProperty = () => {
     const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);

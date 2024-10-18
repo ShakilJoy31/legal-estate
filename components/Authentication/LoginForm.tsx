@@ -31,6 +31,22 @@ const LoginForm: React.FC = () => {
     })
   }
 
+  const [error, setError] = useState('');
+  const validatePassword = (password: any) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!passwordRegex.test(password)) {
+        setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
+    } else {
+        setError('');
+    }
+};
+
+const handleChangePassword = (e: any) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+};
+
 
   return (
     <div style={{
@@ -45,7 +61,7 @@ const LoginForm: React.FC = () => {
       <div className='mb-6'>
         <h2 className='text-2xl mb-2 lg:text-5xl md:text-3xl text-white flex justify-center'>Login Form</h2>
         <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-          Welcome to Mail-Tym! Please log in to your account. We do appreciate your your decision to stay connected with us.</p>
+        Welcome to Legal Estate! Please log in to your account. We do appreciate your decision to stay connected with us.</p>
 
         <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
           We are glad to have you back!</p>
@@ -76,7 +92,7 @@ const LoginForm: React.FC = () => {
                 borderRadius: "4px",
                 background: 'white',
               }} className={`flex items-center px-2`} >
-            <input onChange={(e)=> setPassword(e.target.value)}
+            <input onChange={handleChangePassword}
               placeholder="Type your password"
               className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
               type={passwordVasibility ? 'password' : 'text'}
@@ -88,6 +104,7 @@ const LoginForm: React.FC = () => {
             }
             
           </div>
+          {error && <p className="text-red-700 mt-1">{error}</p>}
         </div>
 
         <div className='my-4 flex justify-end'>

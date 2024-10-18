@@ -26,8 +26,6 @@ const CheckoutProperty = () => {
         }
     }, [status])
 
-    console.log(propertiesToBeSold);
-
     return (
         <div>
 

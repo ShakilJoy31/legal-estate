@@ -1,19 +1,30 @@
 "use client"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { motion } from 'framer-motion'
 
 
 const links = [
-    { url: "/login", title: "Login" },
-    { url: "/profile", title: "Profile" },
-    { url: "/contact", title: "Contact" },
+    { url: "/login", title: "Login" }
 ];
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
+    const router = useRouter(); 
+    const [isAuthenticatedUser, setIsAuthenticatedUser] = useState(false);
+
+    useEffect(() => {
+        const value = localStorage.getItem('legalEstateUser');
+        if (value !== null) {
+            setIsAuthenticatedUser(true)
+        } else {
+            setIsAuthenticatedUser(false)
+        }
+    }, [])
+
+    console.log(isAuthenticatedUser)
     const topVariants = {
         closed: {
             rotate: 0,
@@ -76,9 +87,15 @@ const Navbar = () => {
                 links.map((link, index) => {
                     return (
                         <div key={index} className={`${link.url === pathname ? "bg-black text-white rounded-md px-4 py-1" : ""}`}>
-                            <Link href={link.url}>
+                            {
+                                isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={()=> {
+                                    localStorage.removeItem('legalEstateUser');
+                                    router.push('/login')
+                                }}>Logout</p> : <Link href={link.url}>
                                 {link.title}
                             </Link>
+                            }
+                            
                         </div>
                     )
                 })
@@ -99,9 +116,15 @@ const Navbar = () => {
                             links.map((link, index) => {
                                 return (
                                     <motion.div key={index} variants={listItemVariants}>
-                                        <Link href={link.url} key={index}>
-                                            {link.title}
-                                        </Link>
+                                        {
+                                            isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={()=> {
+                                                localStorage.removeItem('legalEstateUser');
+                                                router.push('/login')
+                                            }}>Logout</p> : <Link href={link.url} key={index}>
+                                                {link.title}
+                                            </Link>
+                                        }
+
                                     </motion.div>
                                 )
                             })

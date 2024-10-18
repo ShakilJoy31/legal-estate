@@ -77,8 +77,21 @@ const SignUpForm: React.FC = () => {
       setServerOTP(res.otp);
     })
   }
+  const [error, setError] = useState('');
+  const validatePassword = (password: any) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!passwordRegex.test(password)) {
+        setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
+    } else {
+        setError('');
+    }
+};
 
-  console.log(serverOTP, otp.join(''));
+const handleChangePassword = (e: any) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+};
 
 
   return (
@@ -170,23 +183,24 @@ const SignUpForm: React.FC = () => {
 
 
         <div className='mt-4'>
-          <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div style={{
-            borderRadius: "4px",
-            background: 'white',
-          }} className={`flex items-center px-2`} >
-            <input onChange={(e) => setPassword(e.target.value)}
-              placeholder="Type your password"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
-              type={passwordVasibility ? 'password' : 'text'}
-              name=""
-              id=""
-            />
-            {
-              passwordVasibility ? <IoEye onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEyeOff>
-            }
-
-          </div>
+            <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
+            <div style={{
+                borderRadius: "4px",
+                background: 'white',
+            }} className={`flex items-center px-2`} >
+                <input
+                    onChange={handleChangePassword}
+                    placeholder="Type your password"
+                    className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
+                    type={passwordVasibility ? 'password' : 'text'}
+                />
+                {
+                    passwordVasibility ? 
+                    <IoEye onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25} /> : 
+                    <IoEyeOff onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25} />
+                }
+            </div>
+            {error && <p className="text-red-700 mt-1">{error}</p>}
         </div>
 
 
@@ -232,15 +246,6 @@ const SignUpForm: React.FC = () => {
             <h1 className=''>Lawer</h1>
           </div>
 
-          <div className='flex gap-x-2'>
-            <input onChange={(e) => setRole(e.target.value)} value='Modarator' type="radio" name="radio-2" className="radio radio-warning" />
-            <h1 className=''>Modarator</h1>
-          </div>
-
-          <div className='flex gap-x-2'>
-            <input onChange={(e) => setRole(e.target.value)} value='Admin' type="radio" name="radio-2" className="radio radio-warning" />
-            <h1 className=''>Admin</h1>
-          </div>
         </div>
 
 

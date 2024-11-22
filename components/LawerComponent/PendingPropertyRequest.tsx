@@ -2,13 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-import CommunityComponentCSS from '../../style/Home.module.css';
-import HomeComponentCss from '../../style/ComponentStyle.module.css';
-import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { RxCross1 } from 'react-icons/rx';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToUpdate } from '@/APIcalling/userInterface';
-import Image from 'next/image';
 import { LawerAPI } from '@/APIcalling/lawerAPI';
 
 const PerndingPropertyRequest: React.FC = () => {

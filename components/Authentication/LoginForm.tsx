@@ -41,7 +41,7 @@ const LoginForm: React.FC = () => {
   }
 
   const [error, setError] = useState('');
-  const validatePassword = (password: any) => {
+  const validatePassword = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!passwordRegex.test(password)) {
       setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
     }
   };
 
-  const handleChangePassword = (e: any) => {
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     validatePassword(newPassword);

@@ -8,13 +8,16 @@ import CommunityComponentCSS from '../../style/Home.module.css';
 import { UserAPI } from '@/APIcalling/userAPI';
 import { IoEyeOff } from "react-icons/io5";
 import { IoEye } from "react-icons/io5";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState(''); 
-  const [password, setPassword] = useState(''); 
-  const [passwordVasibility, setPasswordVasibility] = useState(true); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordVasibility, setPasswordVasibility] = useState(true);
 
 
   const handleUserLogin = async () => {
@@ -22,11 +25,17 @@ const LoginForm: React.FC = () => {
       email: email, password: password
     }
     await UserAPI.handleUserLogin(userData).then(res => {
-      if(res.data.code === 11000){
+      if (res.data.code === 11000) {
         alert('This email is already exists! Try another one.')
-      }else{
-        localStorage.setItem("legalEstateUser", JSON.stringify(res));
-        router.push('/dashboard');
+      } else {
+        if (res?.data?.error === 'User not found' || res?.data?.error === 'Invalid password') {
+          toast.success(res?.data?.error, {
+            autoClose: 2000,
+          });
+        } else {
+          localStorage.setItem("legalEstateUser", JSON.stringify(res));
+          router.push('/dashboard');
+        }
       }
     })
   }
@@ -35,17 +44,17 @@ const LoginForm: React.FC = () => {
   const validatePassword = (password: any) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!passwordRegex.test(password)) {
-        setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
+      setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
     } else {
-        setError('');
+      setError('');
     }
-};
+  };
 
-const handleChangePassword = (e: any) => {
+  const handleChangePassword = (e: any) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     validatePassword(newPassword);
-};
+  };
 
 
   return (
@@ -61,7 +70,7 @@ const handleChangePassword = (e: any) => {
       <div className='mb-6'>
         <h2 className='text-2xl mb-2 lg:text-5xl md:text-3xl text-white flex justify-center'>Login Form</h2>
         <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-        Welcome to Legal Estate! Please log in to your account. We do appreciate your decision to stay connected with us.</p>
+          Welcome to Legal Estate! Please log in to your account. We do appreciate your decision to stay connected with us.</p>
 
         <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
           We are glad to have you back!</p>
@@ -71,7 +80,7 @@ const handleChangePassword = (e: any) => {
         <div>
           <h1 className='mb-1'>Email Address<span className='text-red-700 text-xl pt-1'> *</span></h1>
           <div className={`flex items-center`}>
-            <input onChange={(e)=> setEmail(e.target.value)}
+            <input onChange={(e) => setEmail(e.target.value)}
               style={{
                 borderRadius: "4px",
                 background: 'white',
@@ -89,9 +98,9 @@ const handleChangePassword = (e: any) => {
         <div className='mt-4'>
           <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
           <div style={{
-                borderRadius: "4px",
-                background: 'white',
-              }} className={`flex items-center px-2`} >
+            borderRadius: "4px",
+            background: 'white',
+          }} className={`flex items-center px-2`} >
             <input onChange={handleChangePassword}
               placeholder="Type your password"
               className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
@@ -100,9 +109,9 @@ const handleChangePassword = (e: any) => {
               id=""
             />
             {
-              passwordVasibility ? <IoEye onClick={()=> setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={()=> setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEyeOff>
+              passwordVasibility ? <IoEye onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEye> : <IoEyeOff onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25}></IoEyeOff>
             }
-            
+
           </div>
           {error && <p className="text-red-700 mt-1">{error}</p>}
         </div>
@@ -112,10 +121,11 @@ const handleChangePassword = (e: any) => {
         </div>
 
         <div className='flex justify-center'>
-          <p onClick={()=> router.push('/signup')}>New here? <span className='underline text-black hover:cursor-pointer'>Sign up</span></p>
+          <p onClick={() => router.push('/signup')}>New here? <span className='underline text-black hover:cursor-pointer'>Sign up</span></p>
         </div>
 
       </div>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };

@@ -13,3 +13,4 @@ export const userEmailVerification:string = 'user/verification-email'
 // Routes for the property... 
 export const propertySellingAPI:string = 'property/sell-property'
 export const propertyCheckoutAPI:string = 'property/checkout-property'
+export const propertyUpdateAPI:string = 'property/update-property-status'

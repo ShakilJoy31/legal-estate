@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,8 +24,6 @@ const Navbar = () => {
             setIsAuthenticatedUser(false)
         }
     }, [])
-
-    console.log(isAuthenticatedUser)
     const topVariants = {
         closed: {
             rotate: 0,
@@ -74,15 +73,15 @@ const Navbar = () => {
         }
 
     }
-    return (<div className="h-full flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10 xl:px-16 text-xl pt-4">
-        <div className="md:hidden lg:flex xl:w-1/3 xl:justify-center">
+    return (<div className="h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 text-xl pt-4">
+        <div className="md:hidden lg:flex xl:justify-center">
             <Link href="/" className="text-sm bg-white rounded-md font-semibold flex items-center justify-around" >
                 <span className="flex justify-center w-full text-black">Legal</span>
                 <span className="w-12 h-8 rounded bg-black text-white flex items-center justify-center border border-white">Estate</span>
             </Link>
         </div>
 
-        <div className="hidden md:flex items-center gap-4 w-1/3">
+        <div className="hidden md:flex items-center gap-4">
             {
                 links.map((link, index) => {
                     return (

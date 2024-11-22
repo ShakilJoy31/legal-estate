@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell, ISellerPropertyToUpdate } from '@/APIcalling/userInterface';
 
-const CheckoutProperty = () => {
+const PropertyForApproval = () => {
     const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);
     const [propertiesToBeSold, setPropertiesToBeSold] = useState<ISellerPropertyToSell[]>([]);
     const [status, setStatus] = useState<string>('All');
 
     useEffect(() => {
         SellerAPI.handleGetSellerPropertiesFromDB().then(res => {
-            // Only approved post will be shown here...............................................
-            const pendingProperties = res.data.filter((property: ISellerPropertyToUpdate) => property.condition === 'approved');
+            // Only pending post will be shown here...............................................
+            
+            const pendingProperties = res.data.filter((property: ISellerPropertyToUpdate) => property.condition === 'pending');
             setProperties(pendingProperties);
             setPropertiesToBeSold(pendingProperties);
         });
@@ -185,4 +186,4 @@ const CheckoutProperty = () => {
 //     },
 // };
 
-export default CheckoutProperty;
+export default PropertyForApproval;

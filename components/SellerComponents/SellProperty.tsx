@@ -73,7 +73,8 @@ const SellProperty: React.FC = () => {
             description: description,
             contactNumber: contactNumber,
             image: hostedImage,
-            propertyOwner: parsedSellerOwner.data._id 
+            propertyOwner: parsedSellerOwner.data._id,
+            condition: 'pending'
         };
     
         await SellerAPI.handleCreateSellerPropertyToDB(userData).then((res) => {

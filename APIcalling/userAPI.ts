@@ -10,7 +10,6 @@ import { IUserData, IUserLoginData } from './userInterface';
 
 // Creating user to the database 
 const handleCreateuserToDB = async (data: IUserData) => {
-  console.log(data)
   const axiosInstance = axios.create({
       baseURL: BASE_URL
     });
@@ -42,7 +41,6 @@ const handleUserEmailVerification = async (email: string) => {
       });
     try {
       const response = await axiosInstance.post(userEmailVerification, {email});
-      console.log(response);
       return response.data;
     } catch (error) {
       console.error('Error email verification:', error);

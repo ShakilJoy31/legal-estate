@@ -7,13 +7,17 @@ import { motion } from 'framer-motion'
 
 
 const links = [
+    { url: "/login", title: "Home" },
+    { url: "/login", title: "Type of House" },
+    { url: "/login", title: "About" },
+    { url: "/login", title: "Contact" },
     { url: "/login", title: "Login" }
 ];
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
-    const router = useRouter(); 
+    const router = useRouter();
     const [isAuthenticatedUser, setIsAuthenticatedUser] = useState(false);
 
     useEffect(() => {
@@ -73,32 +77,36 @@ const Navbar = () => {
         }
 
     }
-    return (<div className="h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 text-xl pt-4">
+    return (<div className="h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32 2xl:px-36 text-xl pt-4">
         <div className="md:hidden lg:flex xl:justify-center">
-            <Link href="/" className="text-sm bg-white rounded-md font-semibold flex items-center justify-around" >
-                <span className="flex justify-center w-full text-black">Legal</span>
-                <span className="w-12 h-8 rounded bg-black text-white flex items-center justify-center border border-white">Estate</span>
+            <Link href="/" className="text-sm rounded-md font-semibold flex items-center justify-around" >
+                <span className="flex justify-center w-full text-white text-2xl">Dream</span>
+                <span className="text-white text-xl">.Property</span>
             </Link>
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-16">
             {
                 links.map((link, index) => {
                     return (
-                        <div key={index} className={`${link.url === pathname ? "bg-black text-white rounded-md px-4 py-1" : ""}`}>
+                        <div key={index} className={`${link.url === pathname ? "bg-black text-white rounded-md px-4 py-1 " : ""}`}>
                             {
-                                isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={()=> {
+                                isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={() => {
                                     localStorage.removeItem('legalEstateUser');
                                     router.push('/login')
                                 }}>Logout</p> : <Link href={link.url}>
-                                {link.title}
-                            </Link>
+                                    {link.title}
+                                </Link>
                             }
-                            
+
                         </div>
                     )
                 })
             }
+            {
+                isAuthenticatedUser && <Link href='/dashboard'>Dashboard</Link>
+            }
+
         </div>
 
         <div className="md:hidden lg:hidden sm:hidden flex">
@@ -116,7 +124,7 @@ const Navbar = () => {
                                 return (
                                     <motion.div key={index} variants={listItemVariants}>
                                         {
-                                            isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={()=> {
+                                            isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={() => {
                                                 localStorage.removeItem('legalEstateUser');
                                                 router.push('/login')
                                             }}>Logout</p> : <Link href={link.url} key={index}>
@@ -128,6 +136,10 @@ const Navbar = () => {
                                 )
                             })
                         }
+
+                        {
+                            isAuthenticatedUser && <Link href='/dashboard'>Dashboard</Link>
+                        }
                     </motion.div>
                 )
             }
@@ -138,24 +150,3 @@ const Navbar = () => {
 }
 
 export default Navbar;
-
-
-
-
-
-// <div className="flex justify-between items-center">
-//             <div className="flex gap-x-3">
-//                 <TheButton>Home</TheButton>
-//                 <TheButton>About</TheButton>
-//                 <TheButton>Projects</TheButton>
-//                 <TheButton>Blogs</TheButton>
-//             </div>
-
-//             <div>
-//                 <p>Paragraph</p>
-//             </div>
-
-//             <div>
-//                 <p>The icons</p>
-//             </div>
-//         </div>

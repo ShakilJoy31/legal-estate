@@ -36,11 +36,13 @@ const handleUserLogin = async (data: IUserLoginData) => {
 
 
 const handleUserEmailVerification = async (email: string) => {
+  console.log('result')
     const axiosInstance = axios.create({
         baseURL: BASE_URL
       });
     try {
       const response = await axiosInstance.post(userEmailVerification, {email});
+      console.log(response); 
       return response.data;
     } catch (error) {
       console.error('Error email verification:', error);

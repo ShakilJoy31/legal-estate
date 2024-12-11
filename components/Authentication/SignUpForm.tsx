@@ -72,28 +72,46 @@ const SignUpForm: React.FC = () => {
 
   const [serverOTP, setServerOTP] = useState('');
   const handleProcceed = async () => {
-    (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal()
+    console.log('result');
+    (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal();
     await UserAPI.handleUserEmailVerification(email).then(res => {
       setServerOTP(res.otp);
     })
   }
+  console.log(serverOTP)
   const [error, setError] = useState('');
+
+  const [numberError, setNumberError] = useState('');
+
   const validatePassword = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!passwordRegex.test(password)) {
-        setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
+      setError('Password must be at least 6 characters long and include letters, numbers, and special characters.');
     } else {
-        setError('');
+      setError('');
     }
-};
+  };
 
-const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const newPassword = e.target.value;
-  setPassword(newPassword);
-  validatePassword(newPassword);
-};
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    validatePassword(newPassword);
+  };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
 
+    // Regular expression to validate Bangladeshi phone numbers
+    const bangladeshPhoneRegex = /^(?:\+8801|01)[3-9]\d{8}$/;
+
+    if (bangladeshPhoneRegex.test(input)) {
+      setPhone(input);
+      setNumberError(''); 
+    } else {
+      setPhone(input); 
+      setNumberError('Please enter a valid Bangladeshi phone number (+8801XXXXXXXX or 01XXXXXXXX).'); 
+    }
+  };
 
   return (
     <div style={{
@@ -146,21 +164,28 @@ const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
 
 
-        <div className='my-2'>
-          <h1 className='mb-1'>Phone number<span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center`}>
-            <input onChange={(e) => setPhone(e.target.value)}
+        <div className="my-2">
+          <h1 className="mb-1">
+            Phone number
+            <span className="text-red-700 text-xl pt-1"> *</span>
+          </h1>
+          <div className="flex items-center">
+            <input
+              value={phone}
+              onChange={handlePhoneChange}
               style={{
-                borderRadius: "4px",
+                borderRadius: '4px',
                 background: 'white',
               }}
               placeholder="Type your phone number"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="number"
-              name=""
-              id=""
+              className={`w-full h-[45px] focus:outline-none border-0 pl-1 text-black ${error ? 'border-red-500' : ''
+                }`}
+              type="text" // Changed to "text" to allow "+880"
+              name="phone"
             />
           </div>
+          {/* Error message */}
+          {numberError && <p className="text-red-700 mt-1">{numberError}</p>}
         </div>
 
 
@@ -184,24 +209,24 @@ const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 
         <div className='mt-4'>
-            <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
-            <div style={{
-                borderRadius: "4px",
-                background: 'white',
-            }} className={`flex items-center px-2`} >
-                <input
-                    onChange={handleChangePassword}
-                    placeholder="Type your password"
-                    className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
-                    type={passwordVasibility ? 'password' : 'text'}
-                />
-                {
-                    passwordVasibility ? 
-                    <IoEye onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25} /> : 
-                    <IoEyeOff onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25} />
-                }
-            </div>
-            {error && <p className="text-red-700 mt-1">{error}</p>}
+          <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
+          <div style={{
+            borderRadius: "4px",
+            background: 'white',
+          }} className={`flex items-center px-2`} >
+            <input
+              onChange={handleChangePassword}
+              placeholder="Type your password"
+              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
+              type={passwordVasibility ? 'password' : 'text'}
+            />
+            {
+              passwordVasibility ?
+                <IoEye onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25} /> :
+                <IoEyeOff onClick={() => setPasswordVasibility(!passwordVasibility)} color={'black'} size={25} />
+            }
+          </div>
+          {error && <p className="text-red-700 mt-1">{error}</p>}
         </div>
 
 
@@ -245,6 +270,11 @@ const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
           <div className='flex gap-x-2'>
             <input onChange={(e) => setRole(e.target.value)} value='Lawer' type="radio" name="radio-2" className="radio radio-warning" />
             <h1 className=''>Lawer</h1>
+          </div>
+
+          <div className='flex gap-x-2'>
+            <input onChange={(e) => setRole(e.target.value)} value='Admin' type="radio" name="radio-2" className="radio radio-warning" />
+            <h1 className=''>Admin</h1>
           </div>
 
         </div>
@@ -338,9 +368,9 @@ const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
           </div>
 
           {
-            serverOTP &&  <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={serverOTP !== otp.join('')}>Sign up</button>
+            serverOTP && <button onClick={handleUserSignup} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={serverOTP !== otp.join('')}>Sign up</button>
           }
-         
+
           <div className="modal-action">
             <form method="dialog">
               <button className="btn">Close</button>

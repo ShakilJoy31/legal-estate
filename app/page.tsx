@@ -3,6 +3,7 @@
 import HomeSlider from "@/components/HomeSlider";
 import DashboardCSS from '../style/Home.module.css';
 import { useRouter } from "next/navigation";
+import FeaturedProperties from "@/components/FeaturedProperties";
 
 export default function Home() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function Home() {
 
 
       <HomeSlider></HomeSlider>
+      <FeaturedProperties></FeaturedProperties>
     </div>
   );
 }

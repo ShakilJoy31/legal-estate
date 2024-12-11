@@ -7,8 +7,10 @@ import SellProperty from '@/components/SellerComponents/SellProperty';
 import CheckoutProperty from '@/components/SellerComponents/CheckoutProperty';
 import PropertyForApproval from '@/components/SellerComponents/PropertyForApproval';
 import PerndingPropertyRequest from '@/components/LawerComponent/PendingPropertyRequest';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+    const router = useRouter(); 
     const [sellProperty, setSellProperty] = useState(true);
     const [checkoutProperty, setCheckoutProperty] = useState(false);
     const [propertyForApproval, setPropertyForApproval] = useState(false);
@@ -32,10 +34,11 @@ export default function Home() {
     };
     useEffect(() => {
         const getUser = localStorage.getItem("legalEstateUser");
-
         if (getUser) {
             const parsedUser = JSON.parse(getUser);
             setRole(parsedUser?.data?.role);
+        }else{
+            router.push('/');
         }
     }, []);
     return (
@@ -82,7 +85,6 @@ export default function Home() {
                             sellProperty && <SellProperty></SellProperty>
                         }
 
-
                         {
                             checkoutProperty && <CheckoutProperty></CheckoutProperty>
                         }
@@ -92,13 +94,20 @@ export default function Home() {
                         }
                     </div>
 
-
-
                 </div>
             }
 
             {
                 role === 'Lawer' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full'><PerndingPropertyRequest></PerndingPropertyRequest></div>
+            }
+
+            {/* Latest */}
+            {
+                role === 'Buyer' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full'><CheckoutProperty></CheckoutProperty></div>
+            }
+
+            {
+                role === 'Admin' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full'><CheckoutProperty></CheckoutProperty></div>
             }
 
 

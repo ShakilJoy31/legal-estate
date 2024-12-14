@@ -8,9 +8,10 @@ import CheckoutProperty from '@/components/SellerComponents/CheckoutProperty';
 import PropertyForApproval from '@/components/SellerComponents/PropertyForApproval';
 import PerndingPropertyRequest from '@/components/LawerComponent/PendingPropertyRequest';
 import { useRouter } from 'next/navigation';
+import AdminComponent from '@/components/AdminComponents/AdminComponent';
 
 export default function Home() {
-    const router = useRouter(); 
+    const router = useRouter();
     const [sellProperty, setSellProperty] = useState(true);
     const [checkoutProperty, setCheckoutProperty] = useState(false);
     const [propertyForApproval, setPropertyForApproval] = useState(false);
@@ -37,7 +38,7 @@ export default function Home() {
         if (getUser) {
             const parsedUser = JSON.parse(getUser);
             setRole(parsedUser?.data?.role);
-        }else{
+        } else {
             router.push('/');
         }
     }, []);
@@ -107,7 +108,7 @@ export default function Home() {
             }
 
             {
-                role === 'Admin' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full'><CheckoutProperty></CheckoutProperty></div>
+                role === 'Admin' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full'><AdminComponent></AdminComponent></div>
             }
 
 

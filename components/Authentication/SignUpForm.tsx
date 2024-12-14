@@ -9,6 +9,8 @@ import { UserAPI } from '@/APIcalling/userAPI';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
@@ -32,8 +34,13 @@ const SignUpForm: React.FC = () => {
     }
     await UserAPI.handleCreateuserToDB(userData).then(res => {
       if (res.data.code === 11000) {
-        alert('This email is already exists! Try another one.')
+        toast.error('This email is already exists! Try another one.', {
+          autoClose: 2000,
+        });
       } else {
+        toast.success('Signup Successful!', {
+          autoClose: 2000,
+        });
         localStorage.setItem("legalEstateUser", JSON.stringify(res));
         router.push('/dashboard');
       }
@@ -116,7 +123,8 @@ const SignUpForm: React.FC = () => {
   return (
     <div style={{
       borderRadius: "5px",
-      backgroundImage: "linear-gradient(to right top, rgb(139, 92, 246), rgb(253, 186, 116))",
+      background: "black",
+      border: "1px solid white",
       backgroundSize: "100%",
       backgroundRepeat: "repeat",
     }} className='mt-[100px] md:w-[70%] lg:w-[60%] w-full'>
@@ -336,11 +344,11 @@ const SignUpForm: React.FC = () => {
 
 
         <div className='my-4 flex justify-end'>
-          <button onClick={handleProcceed} className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Procceed</button>
+          <button onClick={handleProcceed} className={`btn border btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`} disabled={(password !== confirmPassword) || (!name || !email || !phone || !password || !address || !role)}>Procceed</button>
         </div>
 
         <div className='flex justify-center'>
-          <p onClick={() => router.push('/login')}>Already have an account? <span className='underline text-black hover:cursor-pointer'>Log in</span></p>
+          <p onClick={() => router.push('/login')}>Already have an account? <span className='underline text-white hover:cursor-pointer'>Log in</span></p>
         </div>
 
       </div>
@@ -380,7 +388,7 @@ const SignUpForm: React.FC = () => {
       </dialog>
 
 
-
+<ToastContainer></ToastContainer>
     </div>
   );
 };

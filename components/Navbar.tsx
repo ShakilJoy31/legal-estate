@@ -28,56 +28,8 @@ const Navbar = () => {
             setIsAuthenticatedUser(false)
         }
     }, [])
-    const topVariants = {
-        closed: {
-            rotate: 0,
-        },
-        opened: {
-            rotate: 45,
-            backgrondColor: "rgb(255,255,255)"
-        }
-    }
-    const centerVariants = {
-        closed: {
-            opacity: 1
-        },
-        opened: {
-            opacity: 0
-        }
-    }
-    const bottomVariants = {
-        closed: {
-            rotate: 0,
-        },
-        opened: {
-            rotate: -45,
-            backgrondColor: "rgb(255,255,255)"
-        }
-    }
-    const listVariants = {
-        closed: {
-            x: "100vw"
-        },
-        opened: {
-            x: 0,
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1
-            }
-        }
-    }
-    const listItemVariants = {
-        closed: {
-            x: -10,
-            opacity: 0
-        },
-        opened: {
-            x: 0,
-            opacity: 1
-        }
 
-    }
-    return (<div className="h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32 2xl:px-36 text-xl pt-4">
+    return (<div className="h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32 2xl:px-36 text-xl">
         <div className="md:hidden lg:flex xl:justify-center">
             <Link href="/" className="text-sm rounded-md font-semibold flex items-center justify-around" >
                 <span className="flex justify-center w-full text-white text-2xl">Dream</span>
@@ -85,44 +37,50 @@ const Navbar = () => {
             </Link>
         </div>
 
-        <div className="hidden md:flex items-center gap-16">
-            {
-                links.map((link, index) => {
-                    return (
-                        <div key={index} className={`${link.url === pathname ? "bg-black text-white rounded-md px-4 py-1 " : ""}`}>
-                            {
-                                isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={() => {
-                                    localStorage.removeItem('legalEstateUser');
-                                    router.push('/login')
-                                }}>Logout</p> : <Link href={link.url}>
-                                    {link.title}
-                                </Link>
-                            }
+        <div className="flex items-center gap-16">
+            <div className={`text-white rounded-md px-4 py-1 flex gap-16`}>
+                <Link href='/about'>
+                    About
+                </Link>
 
-                        </div>
-                    )
-                })
-            }
-            {
-                isAuthenticatedUser && <Link href='/dashboard'>Dashboard</Link>
-            }
+                <Link href='/contact'>
+                    Contact
+                </Link>
+
+                {
+                    isAuthenticatedUser && <Link href='/dashboard'>Dashboard</Link>
+                }
+
+                {
+                    isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={() => {
+                        localStorage.removeItem('legalEstateUser');
+                        router.push('/login')
+                    }}>Logout</p> : <Link href='/login'>
+                        Login
+                    </Link>
+                }
+
+
+
+            </div>
+
 
         </div>
 
         <div className="md:hidden lg:hidden sm:hidden flex">
             <button onClick={() => setOpen(!open)} className="w-10 h-8 flex flex-col justify-between z-50 relative">
-                <motion.div animate={open ? "opened" : "closed"} variants={topVariants} className="w-10 h-1 bg-white rounde origin-left"></motion.div>
-                <motion.div animate={open ? "opened" : "closed"} variants={centerVariants} className="w-10 h-1 bg-white rounded"></motion.div>
-                <motion.div animate={open ? "opened" : "closed"} variants={bottomVariants} className="w-10 h-1 bg-white rounded origin-left"></motion.div>
+                <div className="w-10 h-1 bg-white rounde origin-left"></div>
+                <div className="w-10 h-1 bg-white rounded"></div>
+                <div className="w-10 h-1 bg-white rounded origin-left"></div>
             </button>
 
             {
                 open && (
-                    <motion.div variants={listVariants} initial="closed" animate="opened" className="absolute top-0 left-0 w-screen h-screen bg-black text-white flex flex-col items-center justify-center gap-8 text-4xl z-40">
+                    <div className="absolute top-0 left-0 w-screen h-screen bg-black text-white flex flex-col items-center justify-center gap-8 text-4xl z-40">
                         {
                             links.map((link, index) => {
                                 return (
-                                    <motion.div key={index} variants={listItemVariants}>
+                                    <div key={index}>
                                         {
                                             isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={() => {
                                                 localStorage.removeItem('legalEstateUser');
@@ -132,7 +90,7 @@ const Navbar = () => {
                                             </Link>
                                         }
 
-                                    </motion.div>
+                                    </div>
                                 )
                             })
                         }
@@ -140,7 +98,7 @@ const Navbar = () => {
                         {
                             isAuthenticatedUser && <Link href='/dashboard'>Dashboard</Link>
                         }
-                    </motion.div>
+                    </div>
                 )
             }
 

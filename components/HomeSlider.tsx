@@ -45,7 +45,7 @@ const HomeSlider = () => {
     };
 
     return (
-        <div className='mt-[12px]'>
+        <div className=''>
 
             <Slider {...settings}>
 

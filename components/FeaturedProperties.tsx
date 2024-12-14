@@ -30,7 +30,7 @@ const properties = [
 
 const FeaturedProperties = () => {
     return (
-        <section className="featured-properties px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32 2xl:px-36 pt-16">
+        <section className="featured-properties px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32 2xl:px-36 pt-16 pb-8">
             <p className='text-black flex justify-start font-bold text-2xl'>-----Featured Properties</p>
             <div className='flex justify-between items-center'>
             <h2 className="text-black font-bold text-4xl mb-6">OUR BEST COLLECTION</h2>

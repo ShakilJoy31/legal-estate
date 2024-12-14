@@ -5,14 +5,15 @@
 } 
 
 .orderExtraItemButton{
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   border-radius: 4px;
   transition-duration: 300ms;
 }
 .orderExtraItemButton:hover{
-  background: white;
-  color: black;
+  background: black;
+  color: white;
+  border: 1px solid white;
   border-radius: 4px;
   transition-duration: 300ms;
 }

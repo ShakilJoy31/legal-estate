@@ -26,13 +26,18 @@ const LoginForm: React.FC = () => {
     }
     await UserAPI.handleUserLogin(userData).then(res => {
       if (res.data.code === 11000) {
-        alert('This email is already exists! Try another one.')
+        toast.error('This email is already exists! Try another one.', {
+          autoClose: 2000,
+        });
       } else {
         if (res?.data?.error === 'User not found' || res?.data?.error === 'Invalid password') {
-          toast.success(res?.data?.error, {
+          toast.error(res?.data?.error, {
             autoClose: 2000,
           });
         } else {
+          toast.success('Login Successful!', {
+            autoClose: 2000,
+          });
           localStorage.setItem("legalEstateUser", JSON.stringify(res));
           router.push('/dashboard');
         }
@@ -60,7 +65,7 @@ const LoginForm: React.FC = () => {
   return (
     <div style={{
       borderRadius: "5px",
-      backgroundImage: "linear-gradient(to right top, rgb(139, 92, 246), rgb(253, 186, 116))",
+      background: "black",
       backgroundSize: "100%",
       backgroundRepeat: "repeat",
     }} className='mt-[100px]'>
@@ -121,7 +126,7 @@ const LoginForm: React.FC = () => {
         </div>
 
         <div className='flex justify-center'>
-          <p onClick={() => router.push('/signup')}>New here? <span className='underline text-black hover:cursor-pointer'>Sign up</span></p>
+          <p onClick={() => router.push('/signup')}>New here? <span className='underline text-white hover:cursor-pointer'>Sign up</span></p>
         </div>
 
       </div>

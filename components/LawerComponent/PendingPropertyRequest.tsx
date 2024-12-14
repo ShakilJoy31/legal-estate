@@ -15,7 +15,6 @@ const PerndingPropertyRequest: React.FC = () => {
             setProperties(pendingProperties);
         });
     }, []);
-    console.log(properties);
     return (
         <div style={{
             borderRadius: "5px",

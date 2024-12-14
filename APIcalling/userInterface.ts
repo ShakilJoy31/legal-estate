@@ -96,3 +96,26 @@ export interface ISellerPropertyToUpdate {
   _id:string
   condition: string
 }
+
+
+
+// Admin interface
+
+// Interface for a single user object
+export interface User {
+  _id: string;         // MongoDB Object ID
+  name: string;        // Name of the user
+  email: string;       // User's email address
+  phone: number;       // User's phone number
+  address: string;     // Address of the user
+  role: string;        // Role of the user (e.g., Seller, Buyer, Admin, Lawer)
+  password: string;    // Password of the user
+  photo: string;       // URL of the user's photo
+  __v: number;         // Version key from MongoDB
+}
+
+// Interface for the API response
+export interface UserResponseForAdmin {
+  status: string;      // Status of the API response (e.g., "success")
+  data: User[];        // Array of users
+}

@@ -28,7 +28,7 @@ const PropertyForApproval = () => {
             setPropertiesToBeSold(rentableProperty);
         }
     }, [status])
-
+console.log(properties); 
     return (
         <div>
 

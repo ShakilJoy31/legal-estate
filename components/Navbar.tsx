@@ -10,8 +10,9 @@ const links = [
     { url: "/login", title: "Home" },
     { url: "/login", title: "Type of House" },
     { url: "/login", title: "About" },
+    { url: "/login", title: "My Profile" },
     { url: "/login", title: "Contact" },
-    { url: "/login", title: "Login" }
+    { url: "/login", title: "Login" },
 ];
 
 const Navbar = () => {
@@ -47,6 +48,8 @@ const Navbar = () => {
                     Contact
                 </Link>
 
+
+
                 {
                     isAuthenticatedUser && <Link href='/dashboard'>Dashboard</Link>
                 }
@@ -55,10 +58,15 @@ const Navbar = () => {
                     isAuthenticatedUser ? <p className="hover:cursor-pointer" onClick={() => {
                         localStorage.removeItem('legalEstateUser');
                         router.push('/login')
+                        window.location.reload();
                     }}>Logout</p> : <Link href='/login'>
                         Login
                     </Link>
                 }
+
+                <Link href='/contact'>
+                    My profile
+                </Link>
 
 
 

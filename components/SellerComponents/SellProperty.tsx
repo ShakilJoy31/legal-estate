@@ -7,6 +7,8 @@ import HomeComponentCss from '../../style/ComponentStyle.module.css';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const propertTypes = [
     'Apartment',
@@ -78,6 +80,11 @@ const SellProperty: React.FC = () => {
         };
     
         await SellerAPI.handleCreateSellerPropertyToDB(userData).then((res) => {
+            if(res){
+                toast.success('Successfully uploaded', {
+                    autoClose: 2000,
+                  });
+            }
             console.log(res);
         });
     };
@@ -107,8 +114,9 @@ const SellProperty: React.FC = () => {
     return (
         <div style={{
             borderRadius: "5px",
-            backgroundImage: "linear-gradient(to right top, rgb(139, 92, 246), rgb(253, 186, 116))",
+            background: "black",
             backgroundSize: "100%",
+            border: '1px solid white',
             backgroundRepeat: "repeat",
         }} className='mt-[20px] md:w-[70%] lg:w-[60%] w-full'>
 
@@ -383,6 +391,7 @@ const SellProperty: React.FC = () => {
                 </div>
 
             </div>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

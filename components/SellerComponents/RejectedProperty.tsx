@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell, ISellerPropertyToUpdate } from '@/APIcalling/userInterface';
-import CommunityComponentCSS from '../../style/Home.module.css';
 
-const CheckoutProperty = () => {
+const RejectedProperty = () => {
     const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);
     const [propertiesToBeSold, setPropertiesToBeSold] = useState<ISellerPropertyToSell[]>([]);
     const [status, setStatus] = useState<string>('All');
 
     useEffect(() => {
         SellerAPI.handleGetSellerPropertiesFromDB().then(res => {
-            // Only approved post will be shown here...............................................
-            const pendingProperties = res.data.filter((property: ISellerPropertyToUpdate) => property.condition === 'approved');
+            // Only pending post will be shown here...............................................
+            
+            const pendingProperties = res.data.filter((property: ISellerPropertyToUpdate) => property.condition === 'rejected');
             setProperties(pendingProperties);
             setPropertiesToBeSold(pendingProperties);
         });
@@ -29,6 +29,8 @@ const CheckoutProperty = () => {
         }
     }, [status])
 
+    console.log(properties); 
+
     return (
         <div>
 
@@ -42,17 +44,17 @@ const CheckoutProperty = () => {
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='All' type="radio" name="radio-2" className="radio radio-warning" checked={status === 'All'} />
-                                <h1 className='text-black font-bold'>All</h1>
+                                <h1 className=''>All</h1>
                             </div>
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='For Sell' type="radio" name="radio-2" className="radio radio-warning" />
-                                <h1 className='text-black font-bold'>For Sale</h1>
+                                <h1 className=''>For Sale</h1>
                             </div>
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='For Rent' type="radio" name="radio-2" className="radio radio-warning" />
-                                <h1 className='text-black font-bold'>For Rent</h1>
+                                <h1 className=''>For Rent</h1>
                             </div>
 
                         </div>
@@ -106,7 +108,7 @@ const CheckoutProperty = () => {
                                         <span className="font-bold">Contact:</span> {property.contactNumber}
                                     </div>
 
-                                    <div className="mb-4">
+                                    {/* <div className="mb-4">
                                         <div className='flex gap-x-2 items-center'>
                                             <img className="h-8 w-8 rounded-full"
                                                 src={property.propertyOwner.photo}
@@ -117,10 +119,10 @@ const CheckoutProperty = () => {
                                                 <p>{property.propertyOwner.email}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="card-actions justify-end">
-                                        <button className={`btn border-0 btn-md w-full normal-case ${CommunityComponentCSS.orderExtraItemButton}`}>Explore</button>
+                                        <button className="btn btn-primary">Explore</button>
                                     </div>
                                 </div>
                             </div>
@@ -186,4 +188,4 @@ const CheckoutProperty = () => {
 //     },
 // };
 
-export default CheckoutProperty;
+export default RejectedProperty;

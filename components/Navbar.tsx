@@ -10,7 +10,7 @@ const links = [
     { url: "/login", title: "Home" },
     { url: "/login", title: "Type of House" },
     { url: "/login", title: "About" },
-    { url: "/login", title: "My Profile" },
+    { url: "/my-profile", title: "My Profile" },
     { url: "/login", title: "Contact" },
     { url: "/login", title: "Login" },
 ];
@@ -64,9 +64,13 @@ const Navbar = () => {
                     </Link>
                 }
 
-                <Link href='/contact'>
-                    My profile
-                </Link>
+                {
+                    isAuthenticatedUser ? <Link href='/my-profile'>
+                        My profile
+                    </Link> : ''
+                }
+
+
 
 
 

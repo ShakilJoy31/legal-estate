@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Define the User interface
 interface User {
     address: string;
+    lawerCode: string;
     email: string;
     name: string;
     password: string;
@@ -21,20 +22,22 @@ interface User {
 
 export default function Profile() {
     const [user, setUser] = useState<User | null>(null);
-    const [editing, setEditing] = useState(false); // State to toggle editing mode
-    const [updatedUser, setUpdatedUser] = useState<User | null>(null); // State for holding updates
+    const [editing, setEditing] = useState(false); 
+    const [updatedUser, setUpdatedUser] = useState<User | null>(null);
 
     useEffect(() => {
         const value = localStorage.getItem("legalEstateUser");
         if (value) {
             const parsedValue = JSON.parse(value);
             // Extract the data object if the status is success
-            if (parsedValue?.status === "success" && parsedValue?.data) {
+            if (parsedValue?.data) {
                 setUser(parsedValue.data);
                 setUpdatedUser(parsedValue.data); // Initialize the updatedUser state
             }
         }
     }, []);
+
+    console.log(user); 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (updatedUser) {
@@ -77,16 +80,15 @@ export default function Profile() {
             <div className="max-w-3xl mx-auto bg-black shadow-lg rounded-lg shadow-black">
                 {/* Profile Header */}
                 <div className="flex p-6 border-b gap-6">
-                    <Image
+                    
+                    <img
                         src={user.photo}
                         alt={`${user.name} profile picture`}
-                        width={120}
-                        height={120}
                         className="rounded-full w-24 h-24"
                     />
                     <div>
                         <h1 className="text-2xl font-bold mt-4 text-white">{user.name}</h1>
-                        <p className="text-white text-sm">Role: {user.role}</p>
+                        <p className="text-white text-sm">Role: {user.role === 'Lawer' ? `Lawyer | code: ${user?.lawerCode}` : user.role}</p>
                     </div>
                 </div>
 
@@ -159,7 +161,7 @@ export default function Profile() {
                                     className="bg-gray-800 text-white border border-gray-700 rounded px-2 py-1 w-full"
                                 />
                             ) : (
-                                <p className="text-gray-300">{user.role}</p>
+                                <p className="text-gray-300">{user.role === 'Lawer' ? 'Lawyer' : user.role}</p>
                             )}
                         </div>
 

@@ -20,6 +20,7 @@ const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [lawerCode, setLawerCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('');
@@ -30,7 +31,7 @@ const SignUpForm: React.FC = () => {
 
   const handleUserSignup = async () => {
     const userData = {
-      name: name, email: email, phone: phone, address: address, password: password, role: role, photo: hostedImage
+      name: name, email: email, phone: phone, address: address, password: password, role: role, photo: hostedImage, lawerCode: lawerCode
     }
     await UserAPI.handleCreateuserToDB(userData).then(res => {
       if (res.data.code === 11000) {
@@ -215,6 +216,26 @@ const SignUpForm: React.FC = () => {
           </div>
         </div>
 
+        {
+          role === 'Lawer' && <div className='my-2'>
+          <h1 className='mb-1'>Lawyer code<span className='text-red-700 text-xl pt-1'> *</span></h1>
+          <div className={`flex items-center`}>
+            <input onChange={(e) => setLawerCode(e.target.value)}
+              style={{
+                borderRadius: "4px",
+                background: 'white',
+              }}
+              placeholder="Type your code"
+              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
+              type="text"
+              name=""
+              id=""
+            />
+          </div>
+        </div>
+        }
+        
+
 
         <div className='mt-4'>
           <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
@@ -277,12 +298,7 @@ const SignUpForm: React.FC = () => {
 
           <div className='flex gap-x-2'>
             <input onChange={(e) => setRole(e.target.value)} value='Lawer' type="radio" name="radio-2" className="radio radio-warning" />
-            <h1 className=''>Lawer</h1>
-          </div>
-
-          <div className='flex gap-x-2'>
-            <input onChange={(e) => setRole(e.target.value)} value='Admin' type="radio" name="radio-2" className="radio radio-warning" />
-            <h1 className=''>Admin</h1>
+            <h1 className=''>Lawyer</h1>
           </div>
 
         </div>

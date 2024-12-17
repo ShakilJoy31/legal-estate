@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell, ISellerPropertyToUpdate } from '@/APIcalling/userInterface';
+import CommunityComponentCSS from '../../style/Home.module.css';
 
 const RejectedProperty = () => {
     const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);
     const [propertiesToBeSold, setPropertiesToBeSold] = useState<ISellerPropertyToSell[]>([]);
     const [status, setStatus] = useState<string>('All');
 
+    const [rejectionMessage, setRejectionMessage] = useState('');
+
     useEffect(() => {
         SellerAPI.handleGetSellerPropertiesFromDB().then(res => {
             // Only pending post will be shown here...............................................
-            
+
             const pendingProperties = res.data.filter((property: ISellerPropertyToUpdate) => property.condition === 'rejected');
             setProperties(pendingProperties);
             setPropertiesToBeSold(pendingProperties);
@@ -29,7 +32,7 @@ const RejectedProperty = () => {
         }
     }, [status])
 
-    console.log(properties); 
+    console.log(properties);
 
     return (
         <div>
@@ -44,17 +47,17 @@ const RejectedProperty = () => {
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='All' type="radio" name="radio-2" className="radio radio-warning" checked={status === 'All'} />
-                                <h1 className=''>All</h1>
+                                <h1 className='font-bold text-black'>All</h1>
                             </div>
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='For Sell' type="radio" name="radio-2" className="radio radio-warning" />
-                                <h1 className=''>For Sale</h1>
+                                <h1 className='font-bold text-black'>For Sale</h1>
                             </div>
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='For Rent' type="radio" name="radio-2" className="radio radio-warning" />
-                                <h1 className=''>For Rent</h1>
+                                <h1 className='font-bold text-black'>For Rent</h1>
                             </div>
 
                         </div>
@@ -85,7 +88,7 @@ const RejectedProperty = () => {
                                     <div className="mb-2 flex items-center justify-between gap-x-2">
                                         <p className='border border-white flex justify-between px-2'><span className="font-bold">Bedrooms:</span> {property.bedrooms}</p>
                                         <p className='border border-white flex justify-between px-2'><span className="font-bold">Bathrooms:</span> {property.bahtrooms}</p>
-                                        
+
                                     </div>
 
                                     <div className="mb-2">
@@ -108,21 +111,16 @@ const RejectedProperty = () => {
                                         <span className="font-bold">Contact:</span> {property.contactNumber}
                                     </div>
 
-                                    {/* <div className="mb-4">
-                                        <div className='flex gap-x-2 items-center'>
-                                            <img className="h-8 w-8 rounded-full"
-                                                src={property.propertyOwner.photo}
-                                                alt={property.propertyName} />
-
-                                            <div>
-                                                <p className='font-bold'>{property.propertyOwner.name}</p>
-                                                <p>{property.propertyOwner.email}</p>
-                                            </div>
-                                        </div>
-                                    </div> */}
-
                                     <div className="card-actions justify-end">
-                                        <button className="btn btn-primary">Explore</button>
+                                        <button onClick={() => {
+                                            setRejectionMessage(property?.rejectionMessage)
+                                            const modal = document.getElementById('my_modal_3') as HTMLDialogElement | null;
+                                            if (modal) {
+                                                modal.showModal();
+                                            } else {
+                                                console.error('Modal element with ID "my_modal_2" not found.');
+                                            }
+                                        }} className={`btn border-0 btn-md w-full normal-case ${CommunityComponentCSS.orderExtraItemButton}`}>Rejection Reason</button>
                                     </div>
                                 </div>
                             </div>
@@ -131,61 +129,29 @@ const RejectedProperty = () => {
 
                     </div>
 
-
-
-
-                    {/* <div className='grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4'>
-                        {
-                            propertiesToBeSold.map((property: ISellerPropertyToSell, index: number) => <div key={index} className="card card-side bg-base-100 shadow-xl">
-                                <figure>
-                                    <img className='h-full'
-                                        src={property.image[0]}
-                                        alt="Movie" />
-                                </figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">{property.propertyName}</h2>
-                                    <p>{property.description}</p>
-                                    <div className="card-actions justify-end">
-                                        <button className="btn btn-primary">Explore</button>
-                                    </div>
-                                </div>
-                            </div>)
-                        }
-
-                    </div> */}
                 </div>
 
             }
 
+            <dialog id="my_modal_3" className="modal">
+                <div className="modal-box ">
+                    <h1 className='mb-4 flex justify-center'>Reason for rejection</h1>
+                    <p className='text-red-500 flex justify-center'>{rejectionMessage}</p>
+                </div>
+                <form method="dialog" className="modal-backdrop" onClick={() => {
+                    const modal = document.getElementById('my_modal_3') as HTMLDialogElement | null;
+                    if (modal) {
+                        modal.close();
+                    } else {
+                        console.error('Modal element with ID "my_modal_2" not found.');
+                    }
+                }}>
+                    <button>close</button>
+                </form>
+            </dialog>
+
         </div>
     );
 };
-
-// Simple styles for the card
-// const styles: React.CSSProperties = {
-//     card: {
-//         display: 'flex',
-//         flexDirection: 'column' as 'column',  // Ensure it's a valid FlexDirection type
-//         borderRadius: '10px',
-//         overflow: 'hidden',
-//         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-//         maxWidth: '350px',
-//         margin: '20px',
-//         backgroundColor: '#fff',
-//     },
-//     image: {
-//         width: '100%',
-//         height: '200px',
-//         objectFit: 'cover',
-//     },
-//     content: {
-//         padding: '20px',
-//     },
-//     title: {
-//         margin: '0 0 10px 0',
-//         fontSize: '24px',
-//         color: '#333',
-//     },
-// };
 
 export default RejectedProperty;

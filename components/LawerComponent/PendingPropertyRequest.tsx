@@ -148,7 +148,7 @@ const PerndingPropertyRequest: React.FC = () => {
                         borderRadius: "4px",
                         background: 'white',
                     }}
-                        placeholder="Type your contact number"
+                        placeholder="Type your remark"
                         className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black bg-white"
                         type='text'
                         name=""

@@ -126,7 +126,7 @@ export default function Home() {
 
             {/* Latest */}
             {
-                role === 'Buyer' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full'><CheckoutProperty></CheckoutProperty></div>
+                role === 'Buyer' && <div className='px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 h-full bg-white py-6'><CheckoutProperty></CheckoutProperty></div>
             }
 
             {

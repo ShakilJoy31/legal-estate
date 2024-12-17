@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SellerAPI } from '@/APIcalling/sellerAPI';
 import { ISellerPropertyToSell, ISellerPropertyToUpdate } from '@/APIcalling/userInterface';
+import CommunityComponentCSS from '../../style/Home.module.css';
 
 const PropertyForApproval = () => {
     const [properties, setProperties] = useState<ISellerPropertyToSell[]>([]);
@@ -42,17 +43,17 @@ console.log(properties);
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='All' type="radio" name="radio-2" className="radio radio-warning" checked={status === 'All'} />
-                                <h1 className=''>All</h1>
+                                <h1 className='font-bold text-black'>All</h1>
                             </div>
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='For Sell' type="radio" name="radio-2" className="radio radio-warning" />
-                                <h1 className=''>For Sale</h1>
+                                <h1 className='font-bold text-black'>For Sale</h1>
                             </div>
 
                             <div className='flex gap-x-2'>
                                 <input onChange={(e) => setStatus(e.target.value)} value='For Rent' type="radio" name="radio-2" className="radio radio-warning" />
-                                <h1 className=''>For Rent</h1>
+                                <h1 className='font-bold text-black'>For Rent</h1>
                             </div>
 
                         </div>
@@ -120,7 +121,7 @@ console.log(properties);
                                     </div>
 
                                     <div className="card-actions justify-end">
-                                        <button className="btn btn-primary">Explore</button>
+                                        <button className={`btn border-0 btn-md w-full normal-case ${CommunityComponentCSS.orderExtraItemButton}`}>Explore</button>
                                     </div>
                                 </div>
                             </div>

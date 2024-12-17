@@ -41,8 +41,8 @@ export interface ISellerPropertyToSell {
     description: string;
     contactNumber: string;
     image: string[];
-    propertyOwner: IPropertyOwner;  // Include the owner details
-    
+    propertyOwner: IPropertyOwner;
+    rejectionMessage: string    
 }
 
 
@@ -67,7 +67,8 @@ export interface ISellerPropertyToSell {
     address: string;
     photo: string;
   };
-  
+  rejectionMessage: string;
+  _id: string;
 }
 
 

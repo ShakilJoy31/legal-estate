@@ -8,7 +8,7 @@ import { LawerAPI } from '@/APIcalling/lawerAPI';
 
 const PerndingPropertyRequest: React.FC = () => {
     const [properties, setProperties] = useState<ISellerPropertyToUpdate[]>([]);
-    const [documentURL, setDocumentUrl] = useState('');
+    const [documentURL, setDocumentUrl] = useState<string | string[]>('');
     const [rejectId, setRejectedId] = useState('');
     const [rejectionMEssage, setRejectionMessage] = useState('');
 
@@ -19,7 +19,8 @@ const PerndingPropertyRequest: React.FC = () => {
         });
     }, []);
 
-    const openModal = (url: string) => {
+    const openModal = (url: string[]) => {
+        console.log(url);
         setDocumentUrl(url);
         const modal = document.getElementById('my_modal_2') as HTMLDialogElement | null;
         if (modal) {
@@ -36,6 +37,19 @@ const PerndingPropertyRequest: React.FC = () => {
             document.body.classList.remove('modal-open'); // Enable body scrolling
         }
     };
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % documentURL.length);
+    };
+
+    const handlePrevious = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? documentURL.length - 1 : prevIndex - 1
+        );
+    };
+    console.log(documentURL);
 
     return (
         <div style={{
@@ -83,9 +97,29 @@ const PerndingPropertyRequest: React.FC = () => {
                                         <button
                                             className="bg-green-500 text-white font-medium py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 transition-all"
                                             onClick={() => {
-                                                LawerAPI?.handleGetAndUpdateSellerProperty({ id: property?._id, condition: 'approved' });
-                                                window?.location?.reload();
-                                            }}
+                                                const storedData = localStorage.getItem("legalEstateUser");
+                                                if (storedData) {
+                                                  console.log("Raw data from localStorage:", storedData); // Debugging log
+                                              
+                                                  try {
+                                                    const userData = JSON.parse(storedData); // Parse the JSON
+                                                    const approvedByLawerName = userData?.data?.name;
+                                                    const approvedByLawerEmail = userData?.data?.email;
+                                                    LawerAPI?.handleGetAndUpdateSellerProperty({
+                                                      id: property?._id,
+                                                      condition: "approved",
+                                                      approvedByLawerName,
+                                                      approvedByLawerEmail,
+                                                    });
+                                                    window.location.reload(); 
+                                                  } catch (error) {
+                                                    console.error("Error parsing localStorage data:", error);
+                                                  }
+                                                } else {
+                                                  console.error("No data found in local storage");
+                                                }
+                                              }}
+                                              
                                         >
                                             Approved
                                         </button>
@@ -114,7 +148,7 @@ const PerndingPropertyRequest: React.FC = () => {
                                 <td className="px-6 py-4 text-sm">
                                     <button
                                         className="bg-red-500 text-white font-medium py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all"
-                                        onClick={() => openModal(property?.image[0])}
+                                        onClick={() => openModal(property?.image)}
                                     >
                                         Check Document
                                     </button>
@@ -126,17 +160,45 @@ const PerndingPropertyRequest: React.FC = () => {
             </div>
 
 
-            <dialog id="my_modal_2" className="modal">
-                <div className="modal-box bg-transparent shadow-none">
+            <dialog id="my_modal_2" className={`modal`}>
+                <div className="modal-box bg-transparent shadow-none relative">
+                    {/* Close Button */}
+                    <button
+                        className="absolute top-2 right-2 bg-red-500 text-white font-medium py-1 px-2 rounded hover:bg-red-600"
+                        onClick={closeModal}
+                    >
+                        Close
+                    </button>
+
+                    {/* Left Arrow */}
+                    <button
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hover:bg-gray-700"
+                        onClick={handlePrevious}
+                    >
+                        &larr;
+                    </button>
+
+                    {/* Image */}
                     <img
-                        className="w-full h-full rounded-sm"
-                        src={documentURL}
-                        alt=""
+                        className="w-full h-auto rounded-sm"
+                        src={documentURL[currentIndex]}
+                        alt={`Document ${currentIndex + 1}`}
                     />
+
+                    {/* Right Arrow */}
+                    <button
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full hover:bg-gray-700"
+                        onClick={handleNext}
+                    >
+                        &rarr;
+                    </button>
                 </div>
-                <form method="dialog" className="modal-backdrop" onClick={closeModal}>
-                    <button>close</button>
-                </form>
+
+                <form
+                    method="dialog"
+                    className="modal-backdrop bg-black bg-opacity-50"
+                    onClick={closeModal}
+                />
             </dialog>
 
 
@@ -153,22 +215,22 @@ const PerndingPropertyRequest: React.FC = () => {
                         type='text'
                         name=""
                         id=""
-                        onChange={(e)=> setRejectionMessage(e.target.value)}
+                        onChange={(e) => setRejectionMessage(e.target.value)}
                     />
                     <div className='flex justify-end mt-4'>
                         {
                             rejectionMEssage && <button
-                            className="bg-red-500 text-white font-medium py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all"
-                            onClick={() => {
-                                LawerAPI?.handleGetAndUpdateSellerProperty({ id: rejectId, condition: 'rejected', rejectionMessage: rejectionMEssage });
-                                window?.location?.reload();
-                            }}
-                            disabled={!rejectionMEssage}
-                        >
-                            Reject
-                        </button>
+                                className="bg-red-500 text-white font-medium py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all"
+                                onClick={() => {
+                                    LawerAPI?.handleGetAndUpdateSellerProperty({ id: rejectId, condition: 'rejected', rejectionMessage: rejectionMEssage });
+                                    window?.location?.reload();
+                                }}
+                                disabled={!rejectionMEssage}
+                            >
+                                Reject
+                            </button>
                         }
-                        
+
                     </div>
                 </div>
                 <form method="dialog" className="modal-backdrop" onClick={() => {

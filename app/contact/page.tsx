@@ -1,6 +1,7 @@
 // pages/contact.tsx
 "use client"
 
+import { BASE_URL } from '@/constants/routeConstant';
 import { useState, ChangeEvent, FormEvent } from 'react';
 
 interface FormData {
@@ -24,20 +25,31 @@ const Contact = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    // Mock API call
+  
     setFormStatus('Sending...');
-
+  
     try {
-      // Here you would make the actual API call to send the message
-      // For now, let's simulate the API call with a delay
-      setTimeout(() => {
+      const response = await fetch(`${BASE_URL}user/contact-message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log(response); 
+      if (response.ok) {
         setFormStatus('Message sent successfully!');
-      }, 2000);
+      } else {
+        const errorData = await response.json();
+        console.error('Error details:', errorData);
+        setFormStatus('There was an error sending your message. Please try again.');
+      }
     } catch (error) {
+      console.error('Error:', error);
       setFormStatus('There was an error sending your message. Please try again.');
     }
   };
+  
 
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-12 lg:px-24 xl:px-32 2xl:px-36 text-white py-6">

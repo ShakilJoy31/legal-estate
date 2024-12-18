@@ -78,6 +78,7 @@ const ManageProperty = () => {
                                 <th>Condition</th>
                                 <th>Status</th>
                                 <th>Location</th>
+                                <th>Approved By</th>
                                 <th>Price</th>
                                 <th>Action Button</th>
                             </tr>
@@ -113,6 +114,10 @@ const ManageProperty = () => {
                                     <td>{user?.condition}</td>
                                     <td>{user?.status}</td>
                                     <td>{user?.location}</td>
+                                    <td><div>
+                                        <h1>{user?.approvedByLawerName}</h1>
+                                        <h1>{user?.approvedByLawerEmail}</h1>
+                                    </div></td>
                                     <td>{user?.price}</td>
                                     <td>
                                         <div className="flex gap-x-2">

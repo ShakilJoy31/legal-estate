@@ -110,12 +110,12 @@ console.log(properties);
                                     <div className="mb-4">
                                         <div className='flex gap-x-2 items-center'>
                                             <img className="h-8 w-8 rounded-full"
-                                                src={property.propertyOwner.photo}
-                                                alt={property.propertyName} />
+                                                src={property?.propertyOwner?.photo}
+                                                alt={property?.propertyName} />
 
                                             <div>
-                                                <p className='font-bold'>{property.propertyOwner.name}</p>
-                                                <p>{property.propertyOwner.email}</p>
+                                                <p className='font-bold'>{property?.propertyOwner?.name}</p>
+                                                <p>{property.propertyOwner?.email}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -79,7 +79,7 @@ const MangeRejectedProperty = () => {
                                 <th>Status</th>
                                 <th>Location</th>
                                 <th>Price</th>
-                                <th>Action Button</th>
+                                {/* <th>Action Button</th> */}
                             </tr>
                         </thead>
 
@@ -114,7 +114,7 @@ const MangeRejectedProperty = () => {
                                     <td>{user?.status}</td>
                                     <td>{user?.location}</td>
                                     <td>{user?.price}</td>
-                                    <td>
+                                    {/* <td>
                                         <div className="flex gap-x-2">
 
                                             <button onClick={() => {
@@ -141,7 +141,7 @@ const MangeRejectedProperty = () => {
                                                 Delete
                                             </button>
                                         </div>
-                                    </td>
+                                    </td> */}
                                 </tr>)
                             }
 

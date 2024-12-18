@@ -72,7 +72,7 @@ const ManageProperty = () => {
                                 <th>Status</th>
                                 <th>Location</th>
                                 <th>Price</th>
-                                <th>Action Button</th>
+                                {/* <th>Action Button</th> */}
                             </tr>
                         </thead>
 
@@ -107,7 +107,7 @@ const ManageProperty = () => {
                                     <td>{user?.status}</td>
                                     <td>{user?.location}</td>
                                     <td>{user?.price}</td>
-                                    <td>
+                                    {/* <td>
                                         <div className="flex gap-x-2">
                                             <button  onClick={() => {
                                                     LawerAPI?.handleGetAndUpdateSellerProperty({id: user?._id, condition: 'approved'})
@@ -142,7 +142,7 @@ const ManageProperty = () => {
                                                 Delete
                                             </button>
                                         </div>
-                                    </td>
+                                    </td> */}
                                 </tr>)
                             }
 
